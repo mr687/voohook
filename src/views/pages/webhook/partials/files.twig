@@ -1,0 +1,21 @@
+<table class="table table-borderless table-striped">
+  <thead>
+    <tr class="border-bottom">
+      <th colspan="2">{{title}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if not files or raw == true %}
+      <tr>
+        <td colspan="2" class="text-secondary">(empty)</td>
+      </tr>
+    {% else %}
+      {% for item in files %}
+        <tr>
+          <td width="15%">{{ item.fieldname }}</td>
+          <td>{{ item.originalname }} - <a href="?download={{ util.base64.encode(item.buffer) }}&mimetype={{item.mimetype}}">download ({{ util.fileSize(item.size) }})</a></td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+  </tbody>
+</table>

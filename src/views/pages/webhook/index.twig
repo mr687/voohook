@@ -1,0 +1,103 @@
+{% extends "template/layout.twig" %}
+
+{% block body %}
+  <div id="webhook" class="d-flex">
+    <section id="sidebar">
+      <input class="d-none" name="_sortBy" value="desc"/>
+      <div class="req-list d-flex flex-column flex-column-reverse">
+        {% if not hooks %}
+          <div class="no-req d-flex">
+            <div class="spinner-border spinner-border-sm text-white" role="status" aria-hidden="true"></div>
+            <div class="ms-2">Waiting for request... </div>
+          </div>
+        {% else %}
+          {% for item in hooks %}
+            <a href="{{item.href}}" class="{% if item.id == hid %}active{% endif %}">
+              <form action="{{item.delete.action}}" method="POST">
+                <input type="hidden" name="_method" value="{{item.delete.method}}">
+                <input type="hidden" name="_csrf" value="{{_csrf}}">
+                <button type="submit" class="action btn btn-sm btn-danger px-2 py-0">x</button>
+              </form>
+              <span class="badge bg-{{item.color}}">{{item.method}}</span>
+              <span>#{{item.short_id}} {{item.host}}</span>
+              <div class="small">{{item.date_string}}</div>
+            </a>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </section>
+    <section id="content" class="p-3">
+      <div class="row">
+        {% if hook %}
+          <div class="row">
+            <div class="col-6">
+              <table class="table table-striped table-borderless text-white">
+                <thead>
+                  <tr class="border-bottom">
+                    <th colspan="2">request details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td width="15%"><span class="badge bg-{{hook.color}}">{{hook.method}}</span></td>
+                    <td><a href="{{hook.url}}" target="_blank">{{hook.url}}</a></td>
+                  </tr>
+                  <tr>
+                    <td width="15%">host</td>
+                    <td>{{hook.host}}<a class="ms-1" href="https://who.is/whois-ip/ip-address/{{hook.host}}" target="_blank">whois</a></td>
+                  </tr>
+                  <tr>
+                    <td width="15%">date</td>
+                    <td>{{hook.date_string}} ({{util.timeAgo(hook.date)}})</td>
+                  </tr>
+                  <tr>
+                    <td width="15%">ID</td>
+                    <td>{{hook.id}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              {% include "pages/webhook/partials/files.twig" with {
+                title: "files",
+                files: hook.files,
+                raw: hook.raw
+              } %}
+            </div>
+            <div class="col-6">
+              {% include "pages/webhook/partials/detail.twig" with {
+                title: "request headers",
+                object: hook.headers
+              } %}
+            </div>
+            <div class="col-6">
+              {% include "pages/webhook/partials/detail.twig" with {
+                title: "query",
+                object: hook.query
+              } %}
+            </div>
+            <div class="col-6">
+              {% include "pages/webhook/partials/detail.twig" with {
+                title: "body",
+                object: hook.body
+              } %}
+            </div>
+            {% if hook.raw %}
+              <div class="col-12">
+                {% include "pages/webhook/partials/raw.twig" with {
+                  title: "raw content",
+                  data: hook.raw
+                } %}
+              </div>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="col">
+            <h6><strong>your webhook url:</strong></h6>
+            <div class="d-inline-block h4"><code>{{webhookUrl}}</code></div>
+            <a href="javascript:void(0);" data-url="{{webhookUrl}}" class="btn-copy"><i class="far fa-copy me-1"> </i>copy to clipboard</i></a>
+            <a href="{{webhookUrl}}" class="" target="_blank"><i class="fas me-1 fa-external-link-alt"> </i>open url</i></a>
+          </div>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+{% endblock %}

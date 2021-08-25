@@ -1,0 +1,21 @@
+<table class="table table-striped table-borderless text-white">
+  <thead>
+    <tr class="border-bottom">
+      <th colspan="2">{{ title }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if not object %}
+      <tr>
+        <td colspan="2" class="text-secondary">(empty)</td>
+      </tr>
+    {% endif %}
+  
+    {% for key in object|keys %}
+      <tr>
+        <td width="32%">{{ key }}</td>
+        <td class="value"><code>{{ object[key] }}</code></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
