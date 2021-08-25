@@ -16,7 +16,8 @@
 
 ### 🏠 [Homepage](https://github.com/mr687/voohook#readme)
 
-### ✨ [Demo](https://voohook.ngoder.com)
+### ✨ Demo
+`https://voohook.ngoder.com`
 
 ## Install
 
@@ -27,7 +28,7 @@ npm install
 ## Usage
 
 ```sh
-npm run start
+npm run dev
 ```
 
 ## Author
