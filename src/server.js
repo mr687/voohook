@@ -12,7 +12,7 @@ global.uuid = uuid
 
 app.set('name', process.env.APP_NAME)
 app.set('url', process.env.APP_URL)
-app.set('port', process.env.APP_PORT)
+app.set('port', process.env.PORT || process.env.APP_PORT || 5000)
 app.set('secret', process.env.APP_SECRET)
 app.set('config', require('./config'))
 app.set('util', require('./util'))
