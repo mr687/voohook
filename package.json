@@ -4,6 +4,7 @@
   "description": "Voohook, instant webhook",
   "main": "bin/www",
   "scripts": {
+    "start": "node bin/www",
     "dev": "NODE_NO_WARNINGS=1 DEBUG=voohook:*,-nodemon:*,socket.io:*,express-session:* nodemon -e js,twig bin/www"
   },
   "keywords": ["webhook", "voohook"],
